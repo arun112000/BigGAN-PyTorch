@@ -78,6 +78,7 @@ class Generator(nn.Module):
     self.attention = G_attn
     # number of classes, for use in categorical conditional generation
     self.n_classes = n_classes
+    print(n_classes)
     # Use shared embeddings?
     self.G_shared = G_shared
     # Dimensionality of the shared embedding? Unused if not using G_shared
@@ -301,6 +302,7 @@ class Discriminator(nn.Module):
     self.attention = D_attn
     # Number of classes
     self.n_classes = n_classes
+    print(n_classes)
     # Activation
     self.activation = D_activation
     # Initialization style
@@ -400,6 +402,7 @@ class Discriminator(nn.Module):
     # Get initial class-unconditional output
     out = self.linear(h)
     # Get projection of final featureset onto class vectors and add to evidence
+    # print(y)
     out = out + torch.sum(self.embed(y) * h, 1, keepdim=True)
     return out
 

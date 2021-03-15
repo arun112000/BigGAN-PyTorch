@@ -30,7 +30,7 @@ def GAN_training_function(G, D, GD, z_, y_, ema, state_dict, config):
     if config['toggle_grads']:
       utils.toggle_grad(D, True)
       utils.toggle_grad(G, False)
-      
+    # print('Before training starts')
     for step_index in range(config['num_D_steps']):
       # If accumulating gradients, loop multiple times before an optimizer step
       D.optim.zero_grad()
@@ -43,10 +43,16 @@ def GAN_training_function(G, D, GD, z_, y_, ema, state_dict, config):
          
         # Compute components of D's loss, average them, and divide by 
         # the number of gradient accumulations
+        # print('forward pass of the net')
+        # print(D_fake)
+        # print(D_real)
         D_loss_real, D_loss_fake = losses.discriminator_loss(D_fake, D_real)
+        # print(D_loss_real)
         D_loss = (D_loss_real + D_loss_fake) / float(config['num_D_accumulations'])
+        # print(D_loss)
         D_loss.backward()
         counter += 1
+
         
       # Optionally apply ortho reg in D
       if config['D_ortho'] > 0.0:

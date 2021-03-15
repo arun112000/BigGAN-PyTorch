@@ -181,6 +181,8 @@ def run(config):
         x, y = x.to(device).half(), y.to(device)
       else:
         x, y = x.to(device), y.to(device)
+      print(x.shape)
+      print(y.shape)
       metrics = train(x, y)
       train_log.log(itr=int(state_dict['itr']), **metrics)
       
